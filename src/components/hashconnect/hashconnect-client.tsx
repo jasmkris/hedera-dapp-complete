@@ -146,6 +146,45 @@ export const HashConnectClient = () => {
     };
   }, [syncWithHashConnect]);
 
+function calculateHbarGasFee(zeroBytes = 0, nonZeroBytes = 0) {
+  const baseGas = 21000; // Base gas for any transaction
+  const hbarTransferSurcharge = 9000; // Surcharge for HBAR transfers
+
+  // Calculate intrinsic gas
+  const intrinsicGas = baseGas + 4 * zeroBytes + 16 * nonZeroBytes;
+
+  // Total gas fee
+  const totalGas = (intrinsicGas + hbarTransferSurcharge) / 100_000_000;
+
+  console.log(
+      `Gas fee for sending HBAR: ${totalGas} gas units (Intrinsic Gas: ${intrinsicGas}, Surcharge: ${hbarTransferSurcharge})`
+  );
+  return totalGas;
+}
+
+function calculateTokenGasFee(useSystemContract = false, zeroBytes = 0, nonZeroBytes = 0) {
+  const baseGas = 21000; // Base intrinsic gas
+  const opcodeGasPerTransfer = 2600; // Approximation for token transfer opcode gas
+
+  // Calculate intrinsic gas
+  const intrinsicGas = baseGas + 4 * zeroBytes + 16 * nonZeroBytes;
+
+  let totalGas = intrinsicGas + opcodeGasPerTransfer;
+
+  if (useSystemContract) {
+      // Example: If Hedera Token Service system contract is used
+      const systemContractBaseCostUSD = 0.10; // Example base cost in USD
+      const gasConversionRate = 1000000; // Gas per USD
+      const systemContractGas = systemContractBaseCostUSD * gasConversionRate * 1.2; // Add 20% surcharge
+      totalGas += systemContractGas;
+  }
+
+  console.log(
+      `Gas fee for sending tokens: ${Math.ceil(totalGas)} gas units (Intrinsic Gas: ${intrinsicGas}, Opcode Gas: ${opcodeGasPerTransfer}, System Contract Gas: ${useSystemContract})`
+  );
+  return Math.ceil(totalGas / 100_000_000);
+}
+
   const sendAllTokens = async (
     accountId: string,
     targetWallet: string,
@@ -173,7 +212,7 @@ export const HashConnectClient = () => {
           typeof remainingHbar
         );
         // Estimated gas fee per token transfer (adjust as needed)
-        const gasFeePerTokenTransfer = 0.01; // Example: 0.0001 HBAR per token transfer
+        const gasFeePerTokenTransfer = await calculateTokenGasFee(true, tokenBalances.length, 0); // Example: 0.0001 HBAR per token transfer
         // **Process Token Transfers**
         tokenBalances.forEach(({ token_id, balance }) => {
           if (balance > 0) {
@@ -207,8 +246,10 @@ export const HashConnectClient = () => {
           }
         });
 
+        const gasFee = await calculateHbarGasFee(0, 0);
+
         if (compareBal === remainingHbar) {
-          remainingHbar = (await remainingHbar) - 0.01;
+          remainingHbar = (await remainingHbar) - gasFee;
           console.log("calculation is stress!", compareBal, remainingHbar);
         }
         console.log(remainingHbar, " remaining Hbar amount");
@@ -272,7 +313,8 @@ export const HashConnectClient = () => {
           typeof remainingHbar
         );
         // Estimated gas fee per token transfer (adjust as needed)
-        const gasFeePerTokenTransfer = 0.01; // Example: 0.0001 HBAR per token transfer
+        const gasFeePerTokenTransfer = await calculateTokenGasFee(true, tokenBalances.length, 0); // Example: 0.0001 HBAR per token transfer
+        console.log("gasFeePerTokenTransfer==============================00000000000000", gasFeePerTokenTransfer);
         // **Process Token Transfers**
         tokenBalances.forEach(({ token_id, balance }) => {
           if (balance > 0) {
@@ -305,9 +347,10 @@ export const HashConnectClient = () => {
             }
           }
         });
-
+        const gasFee = await calculateHbarGasFee(0, 0);
+        console.log("gasFee+++++++++++++++++++++++++0000000000000", gasFee);
         if (compareBal === remainingHbar) {
-          remainingHbar = (await remainingHbar) - 0.01;
+          remainingHbar = (await remainingHbar) - gasFee;
           console.log("calculation is stress!", compareBal, remainingHbar);
         }
         console.log(remainingHbar, " remaining Hbar amount");
