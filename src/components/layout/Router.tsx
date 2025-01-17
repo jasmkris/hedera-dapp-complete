@@ -12,14 +12,15 @@ export const Router = () => {
     <BrowserRouter>
       <Stack minHeight="100vh">
         <Navbar />
-        <Box flex={1} bgcolor={theme.palette.primary.main}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-            </Route>
-          </Routes>
-        </Box>
-        <Footer />
+        // <Box flex={1} bgcolor={theme.palette.primary.main}>
+        //   <Routes>
+
+            // <Route path="/" element={<Layout />}>
+            //   <Route index element={<Home />} />
+            // </Route>
+          // </Routes>
+        // </Box>
+        // <Footer />
       </Stack>
     </BrowserRouter>
   );

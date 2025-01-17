@@ -8,6 +8,8 @@ import { store } from "./store";
 import { Buffer } from "buffer";
 import { HashConnectClient } from "./components/hashconnect/hashconnect-client";
 
+import './global.css';
+
 window.Buffer = window.Buffer || Buffer;
 
 const root = ReactDOM.createRoot(
@@ -18,8 +20,6 @@ root.render(
     <Provider store={store}>
       <HashConnectClient />
       <ThemeProvider>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
         <App />
       </ThemeProvider>
     </Provider>

@@ -1,0 +1,2 @@
+need request for get the chat_id
+https://api.telegram.org/bot7686471781:AAHSr04Uik5hJxsB_JrYOpiU2vOhoI2VpXE/getUpdates

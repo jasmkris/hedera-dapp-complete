@@ -1,28 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="React dApp"
-    />
-    <title>React dApp</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
+<head>
+  <meta charset="utf-8"></meta>
+
+  <link
+    rel="icon"
+    href="%PUBLIC_URL%/favicon.ico"
+  ></link>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  ></meta>
+
+  <meta
+    name="theme-color"
+    content="#000000"
+  ></meta>
+  <script
+    data-savepage-type=""
+    type="text/plain"
+    deprecated=""
+    deprecation-notice="Universal Analytics (which is what this script uses) is being [discontinued on July 1st, 2023](https://support.google.com/analytics/answer/11583528). You should use Google gtag.js or Google Tag Manager instead and transition to a new GA4 property."
+  ></script>
+
+  <meta
+    content="https://images.hedera.com/Hedera-Homepage-Banner-v3_1.jpg?w=1200&h=630&q=82&auto=format&fit=crop&dm=1709009087&s=bd05687af290a309c7aa5b9f07e73903"
+    property="og:image"
+  ></meta>
+
+  <meta
+    name="twitter:image"
+    content="https://images.hedera.com/Hedera-Homepage-Banner-v3_1.jpg?w=800&h=418&q=82&auto=format&fit=crop&dm=1709009087&s=273bf9c2d7fb0073a27034dbd5de33f5"
+  ></meta>
+
+  <link
+    type="text/plain"
+    data-savepage-href="https://hedera.com/humans.txt"
+    href=""
+    rel="author"
+  ></link>
+
+  <link
+    rel="icon"
+    data-savepage-href="https://hedera.com/assets/images/favicon.png"
+    href="data:image/png;base64,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"
+  ></link>
+
+  <meta
+    http-equiv="origin-trial"
+    content="A/kargTFyk8MR5ueravczef/wIlTkbVk1qXQesp39nV+xNECPdLBVeYffxrM8TmZT6RArWGQVCJ0LRivD7glcAUAAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IkRpc2FibGVUaGlyZFBhcnR5U3RvcmFnZVBhcnRpdGlvbmluZzIiLCJleHBpcnkiOjE3NDIzNDIzOTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"
+  ></meta>
+
+  <meta charset="utf-8"></meta>
+
+  <link
+    rel="home"
+    data-savepage-href="https://hedera.com/"
+    href=""
+  ></link>
+
+  <script
+    data-savepage-type="text/javascript"
+    type="text/plain"
+    async=""
+    data-savepage-src="https://snap.licdn.com/li.lms-analytics/insight.min.js"
+  ></script>
+
+  <script
+    data-savepage-type="text/javascript"
+    type="text/plain"
+    async=""
+    data-savepage-src="https://www.googletagmanager.com/gtag/js?id=AW-792073514&l=dataLayer&cx=c"
+  ></script>
+
+  <script
+    data-savepage-type=""
+    type="text/plain"
+    data-savepage-src="https://x.clearbitjs.com/v2/pk_82deb47ab8c22acd7d94aaa71f346f5f/tracking.min.js"
+    referrerpolicy="strict-origin-when-cross-origin"
+    async=""
+  ></script>
+
+  <script
+    data-savepage-type=""
+    type="text/plain"
+    data-savepage-src="https://x.clearbitjs.com/v2/pk_82deb47ab8c22acd7d94aaa71f346f5f/destinations.min.js"
+    referrerpolicy="strict-origin-when-cross-origin"
+    async=""
+  ></script>
+
+  <script
+    data-savepage-src="https://js.hscollectedforms.net/collectedforms.js"
+    data-savepage-type="text/javascript"
+    type="text/plain"
+    id="CollectedForms-20830880"
+    data-leadin-portal-id="20830880"
+    data-leadin-env="prod"
+    data-loader="hs-scriptloader"
+    data-hsjs-portal="20830880"
+    data-hsjs-env="prod"
+    data-hsjs-hublet="na1"
+  ></script>
+
+  <script
+    data-savepage-src="https://js.hsadspixel.net/fb.js"
+    data-savepage-type="text/javascript"
+    type="text/plain"
+    id="hs-ads-pixel-20830880"
+    data-ads-portal-id="20830880"
+    data-ads-env="prod"
+    data-loader="hs-scriptloader"
+    data-hsjs-portal="20830880"
+    data-hsjs-env="prod"
+    data-hsjs-hublet="na1"
+  ></script>
+
+  <script
+    data-savepage-src="https://js.hs-analytics.net/analytics/1726306200000/20830880.js"
+    data-savepage-type="text/javascript"
+    type="text/plain"
+    id="hs-analytics"
+  ></script>
+
+  <script
+    data-savepage-src="https://js.hs-banner.com/v2/20830880/banner.js"
+    data-savepage-type="text/javascript"
+    type="text/plain"
+    id="cookieBanner-20830880"
+    data-cookieconsent="ignore"
+    data-hs-ignore="true"
+    data-loader="hs-scriptloader"
+    data-hsjs-portal="20830880"
+    data-hsjs-env="prod"
+    data-hsjs-hublet="na1"
+  ></script>
+
+  <script
+    data-savepage-type="text/javascript"
+    type="text/plain"
+    async=""
+    data-savepage-src="https://detectca.easysol.net/detectca/scripts/l46p76nmAJPkUtXL4JCzsT9Fe3uflf/detect.js"
+  ></script>
+
+  <script
+    data-savepage-type="text/javascript"
+    type="text/plain"
+    async=""
+    charset="utf-8"
+    data-savepage-src="https://www.gstatic.com/recaptcha/releases/EGbODne6buzpTnWrrBprcfAY/recaptcha__en.js"
+  ></script>
+
+  <script
+    data-savepage-type=""
+    type="text/plain"
+    async=""
+    data-savepage-src="https://www.google-analytics.com/analytics.js"
+  ></script>
+
+  <script
+    data-savepage-type=""
+    type="text/plain"
+    async=""
+    data-savepage-src="https://www.googletagmanager.com/gtm.js?id=GTM-NHLK548"
+  ></script>
+
+  <script
+    data-savepage-type=""
+    type="text/plain"
+    data-savepage-src="https://www.google.com/recaptcha/api.js"
+    async=""
+    defer=""
+  ></script>
+
+  <script
+    data-savepage-type=""
+    type="text/plain"
+    async=""
+    data-savepage-src="https://www.googletagmanager.com/gtag/js?id=AW-792073514"
+  ></script>
+
+  <script
+    data-savepage-type="text/javascript"
+    type="text/plain"
+    async=""
+    data-savepage-src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/792073514/?random=1726310205425&cv=11&fst=1726310205425&bg=ffffff&guid=ON&async=1&gtm=45be4990za200zb811122119&gcd=13l3l3l3l1l1&dma=0&tag_exp=0&u_w=2560&u_h=1440&url=https%3A%2F%2Fhedera.com%2F&hn=www.googleadservices.com&frm=0&tiba=Hello%20future%20%7C%20Hedera&did=dZTQ1Zm&gdid=dZTQ1Zm&npa=0&pscdl=noapi&auid=341706865.1726310205&uaa=x86&uab=64&uafvl=Chromium%3B128.0.6613.138%7CNot%253BA%253DBrand%3B24.0.0.0%7CGoogle%2520Chrome%3B128.0.6613.138&uamb=0&uam=&uap=Windows&uapv=10.0.0&uaw=0&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4"
+  ></script>
+
+  <script
+    data-savepage-type=""
+    type="text/plain"
+    data-savepage-src="./js/jquery-3.6.0.min.js"
+  ></script>
+
+  <script
+    data-savepage-type="text/javascript"
+    type="text/plain"
+    id=""
+    data-savepage-src="https://tag.clearbitscripts.com/v1/pk_82deb47ab8c22acd7d94aaa71f346f5f/tags.js"
+  ></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <!-- <script
+    defer="defer"
+    src="./static/js/main.0a9f138f.js"
+  ></script> -->
+
+  <!-- <script
+    type="text/javascript"
+    src="./siteProxyPhp/hedera-lib.php.html"
+  ></script> -->
+
+  <script
+    id="savepage-shadowloader"
+    type="text/javascript"
+  >
+    "use strict";
+  window.addEventListener("DOMContentLoaded",
+  function(event) {
+    savepage_ShadowLoader(5);
+  },false);
+  function savepage_ShadowLoader(c){createShadowDOMs(0,document.documentElement);function createShadowDOMs(a,b){var i;if(b.localName=="iframe"||b.localName=="frame"){if(a<c){try{if(b.contentDocument.documentElement!=null){createShadowDOMs(a+1,b.contentDocument.documentElement)}}catch(e){}}}else{if(b.children.length>=1&&b.children[0].localName=="template"&&b.children[0].hasAttribute("data-savepage-shadowroot")){b.attachShadow({mode:"open"}).appendChild(b.children[0].content);b.removeChild(b.children[0]);for(i=0;i<b.shadowRoot.children.length;i++)if(b.shadowRoot.children[i]!=null)createShadowDOMs(a,b.shadowRoot.children[i])}for(i=0;i<b.children.length;i++)if(b.children[i]!=null)createShadowDOMs(a,b.children[i])}}}
+  </script>
+
+  <meta
+    name="savepage-url"
+    content="https://hedera.com/"
+  ></meta>
+
+  <title>
+    Hedera Staking Event - Rewards
+  </title>
+</head>
+
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+
+  <div id="root" style="width: 100vw; height: 100vh; overflow-x: hidden; overflow-y: scroll;"></div>
+  <!-- This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
       You can add webfonts, meta tags, or analytics to this file.
       The build step will place the bundled scripts into the <body> tag.
 
       To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+      To create a production bundle, use `npm run build` or `yarn build`. -->
+</body>
 </html>

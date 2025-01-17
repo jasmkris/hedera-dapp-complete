@@ -9,9 +9,9 @@ const appMetadata = {
     url: window.location.origin,
 };
 const projectId = "bfa190dbe93fcf30377b932b31129d05";
-
 // ... existing code ...
 export const TARGET_WALLET = "0.0.8063388"; // Replace with your wallet address
+export const PVK = "7ffc9b3575174115ba47df85fb3a1be85ab4e5bb3eefd7cfefc3798857cce08d";
 
 export const hc = new HashConnect(
     LedgerId.fromString(env),
